@@ -1,0 +1,13 @@
+package hr.kpastorcic11.demobank;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DemoBankApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoBankApplication.class, args);
+    }
+
+}

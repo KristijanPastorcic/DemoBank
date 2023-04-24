@@ -2,9 +2,13 @@ package hr.kpastorcic11.demobank.models;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "persons")
 public class Person {
 
@@ -21,8 +25,13 @@ public class Person {
     @Column(nullable = false, unique = true)
     private String oib;
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(length = 8)
     private Status status = Status.INACTIVE;
+
+    public String toFileLine() {
+        return name + ", " + lastName + ", " + oib + ", " + status;
+    }
 
     public Integer getId() {
         return id;
@@ -60,16 +69,30 @@ public class Person {
         this.status = status;
     }
 
-    public Person copyDetails(PersonDTO personDetails) {
-        setLastName(personDetails.getLastName());
-        setName(personDetails.getName());
-        setOib(personDetails.getOib());
+    public Person copyDetails(ValidatedPersonDTO validatedPersonDTO) {
+        setLastName(validatedPersonDTO.getLastName());
+        setName(validatedPersonDTO.getName());
+        setOib(validatedPersonDTO.getOib());
+        setStatus(Status.valueOf(validatedPersonDTO.getStatus()));
         return this;
     }
 
-    public enum Status {
-        ACTIVE, INACTIVE
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", oib='" + oib + '\'' +
+                ", status=" + status +
+                '}';
     }
+
+    public enum Status {
+        INACTIVE, ACTIVE
+    }
+
+
 }
 
 
